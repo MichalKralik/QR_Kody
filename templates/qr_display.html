@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR kód vytvořen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .box {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 25px;
+            max-width: 480px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        img {
+            width: 220px;
+            height: 220px;
+            border: 1px solid #ccc;
+            margin: 15px 0;
+        }
+
+        .qr-text {
+            font-size: 13px;
+            word-break: break-all;
+            color: #333;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .links {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .links a {
+            padding: 7px 15px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .links a:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>QR kód vytvořen</h1>
+
+        <img src="/static/qr_images/{{ qr_image }}" alt="QR kod">
+
+        <div class="qr-text">
+            <strong>Obsah:</strong><br>
+            {{ qr_text }}
+        </div>
+
+        <div class="links">
+            <a href="{{ url_for('index') }}">Moje QR kódy</a>
+            <a href="{{ url_for('qr_new') }}">Vytvořit další</a>
+        </div>
+    </div>
+</body>
+</html>

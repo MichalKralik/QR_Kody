@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nový QR kód</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .navbar {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: #333;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .box {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 25px;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #999;
+            font-size: 14px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            padding: 8px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+
+        .errors {
+            background: #fdd;
+            border: 1px solid #c00;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .info {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span><strong>{{ current_user.username }}</strong></span>
+        <div>
+            <a href="{{ url_for('index') }}">Domů</a>
+            <a href="{{ url_for('logout') }}">Odhlásit</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <h1>Vytvořit nový QR kód</h1>
+
+        <p class="info">Vlož text nebo URL (max. 1000 znaků)</p>
+
+        {% if form.errors %}
+        <div class="errors">
+            {% for field, errors in form.errors.items() %}
+                {% for error in errors %}
+                    <div>{{ error }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" novalidate>
+            {{ form.csrf_token }}
+            {{ form.qr_text(placeholder="Text nebo URL") }}
+            {{ form.submit(value="Vytvořit QR") }}
+        </form>
+    </div>
+</body>
+</html>

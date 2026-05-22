@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrace</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .box {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 30px;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #999;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            padding: 8px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+
+        .errors {
+            background: #fdd;
+            border: 1px solid #c00;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .info {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .link {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Registrace</h1>
+
+        <p class="info">Uživatelské jméno: 3-20 znaků, heslo: min. 6 znaků</p>
+
+        {% if form.errors %}
+        <div class="errors">
+            {% for field, errors in form.errors.items() %}
+                {% for error in errors %}
+                    <div>{{ error }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" novalidate>
+            {{ form.csrf_token }}
+            {{ form.username(placeholder="Uživatelské jméno") }}
+            {{ form.password(placeholder="Heslo") }}
+            {{ form.confirm(placeholder="Potvrdit heslo") }}
+            {{ form.submit(value="Zaregistrovat se") }}
+        </form>
+
+        <div class="link">
+            <a href="{{ url_for('login') }}">Už mám účet - přihlášení</a>
+        </div>
+    </div>
+</body>
+</html>

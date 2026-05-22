@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smazání účtu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .box {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 25px;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #e0a800;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .warning ul {
+            margin: 8px 0 0 20px;
+            padding: 0;
+        }
+
+        .warning li {
+            margin: 4px 0;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons a {
+            padding: 7px 15px;
+            background: #666;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .buttons a:hover {
+            background: #888;
+        }
+
+        .buttons input[type="submit"] {
+            padding: 7px 15px;
+            background: #c00;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .buttons input[type="submit"]:hover {
+            background: #a00;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Smazání účtu</h1>
+
+        <div class="warning">
+            <strong>Tato akce je nevratná!</strong>
+            <ul>
+                <li>Váš účet a všechny údaje</li>
+                <li>Všechny vaše QR kódy</li>
+                <li>Všechny soubory s QR kódy</li>
+            </ul>
+        </div>
+
+        <form method="post">
+            {{ form.csrf_token }}
+            <div class="buttons">
+                <a href="{{ url_for('index') }}">Zrušit</a>
+                {{ form.submit(value="Ano, smazat účet") }}
+            </div>
+        </form>
+    </div>
+</body>
+</html>
