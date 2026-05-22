@@ -101,10 +101,11 @@ class DeleteAccountForm(FlaskForm):
 @app.route("/")
 def index():
     if current_user.is_authenticated:
-        con = sqlite3.connect("app.db")
-        cur = con.cursor()
-        res = cur.execute("SELECT qr_text, qr_image_path FROM library WHERE user_rowid = ?", (current_user.id,))
-        user_library = res.fetchall()
+        conn = get_db()
+        user_library = conn.execute(
+            "SELECT qr_text, qr_image_path FROM library WHERE user_rowid = ?", (current_user.id,)
+        ).fetchall()
+        conn.close()
         return render_template("index.html", user_library=user_library)
     return redirect(url_for("login"))
 
@@ -191,13 +192,13 @@ def qr_new():
         img.save(QR_STORAGE + file_name)
 
 
-        con = sqlite3.connect("app.db")
-        cur = con.cursor()
-        qr_image_path = file_name
-        cur.execute('INSERT INTO library(qr_text, qr_image_path, user_rowid) VALUES(?, ?, ?)',
-                    (qr_text, qr_image_path, current_user.id))
-        con.commit()
-        con.close()
+        conn = get_db()
+        conn.execute(
+            "INSERT INTO library(qr_text, qr_image_path, user_rowid) VALUES(?, ?, ?)",
+            (qr_text, file_name, current_user.id)
+        )
+        conn.commit()
+        conn.close()
         return redirect(url_for("qr_display", filename=file_name))
     return render_template("qr_new.html", form=form)
 
