@@ -22,7 +22,8 @@ login_manager = LoginManager()
 login_manager.login_view = "login"
 login_manager.init_app(app)
 
-DB_PATH = "app.db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "app.db")
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
@@ -184,7 +185,7 @@ def qr_new():
         file_name = generate_safe_filename_string()
 
         file_name = file_name + ".png"
-        QR_STORAGE = "./static/qr_images/"
+        QR_STORAGE = os.path.join(BASE_DIR, "static", "qr_images") + os.sep
 
         img = qr.make_image(fill_color="black", back_color="white")
         img.save(QR_STORAGE + file_name)
@@ -245,7 +246,7 @@ def delete_qr(qr_file):
         
         # Smazání souboru
         try:
-            os.remove(f"./static/qr_images/{qr_file}")
+            os.remove(os.path.join(BASE_DIR, "static", "qr_images", qr_file))
         except FileNotFoundError:
             pass  # Soubor už neexistuje, pokračujeme dál
         
@@ -287,7 +288,7 @@ def delete_account():
             # Smazání fyzických souborů
             for qr_file in qr_files:
                 try:
-                    os.remove(f"./static/qr_images/{qr_file[0]}")
+                    os.remove(os.path.join(BASE_DIR, "static", "qr_images", qr_file[0]))
                 except FileNotFoundError:
                     pass
             
@@ -307,7 +308,7 @@ def delete_account():
     
     return render_template("delete_account.html", form=form)
 
+init_db()
+
 if __name__ == "__main__":
-    if not os.path.exists(DB_PATH):
-        init_db()
     app.run(debug=True)
